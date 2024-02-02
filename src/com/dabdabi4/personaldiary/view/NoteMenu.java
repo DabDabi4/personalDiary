@@ -6,9 +6,16 @@ import com.dabdabi4.personaldiary.service.EditNoteService;
 import com.dabdabi4.personaldiary.service.NoteService;
 import java.util.List;
 
+
+/**
+ * Клас, який представляє меню для роботи з записами в програмі "Особистий щоденник".
+ */
+
 public class NoteMenu {
 
-
+    /**
+     * Виводить меню для створення, редагування, та перегляду записів користувача.
+     */
     public static void showNoteMenu() {
         NoteService noteService = new NoteService();
 

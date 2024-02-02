@@ -3,11 +3,18 @@ package com.dabdabi4.personaldiary.view;
 import com.dabdabi4.personaldiary.entity.model.User;
 import java.lang.reflect.Field;
 
-
+/**
+ * Клас, який надає методи для виведення інформації про користувача в консоль.
+ */
 public class UserConsoleUI {
 
 
-    // Метод для виведення інформації про користувача в консоль
+    /**
+     * Виводить інформацію про користувача в консоль.
+     *
+     * @param user Об'єкт класу User, інформацію про якого треба вивести.
+     * @throws IllegalAccessException Виняток, що виникає при спробі доступу до поля.
+     */
     public static void displayUserInfo(User user) throws IllegalAccessException {
 
         for (Field field : User.class.getDeclaredFields()) {

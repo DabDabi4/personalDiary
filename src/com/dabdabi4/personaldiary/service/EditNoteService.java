@@ -7,15 +7,26 @@ import com.dabdabi4.personaldiary.view.CustomerConsoleUI;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Клас, який надає сервіси для редагування та видалення записів користувача.
+ */
 public class EditNoteService {
 
     private static final Scanner scanner = new Scanner(System.in);
     private final NoteService noteService;
 
+    /**
+     * Конструктор класу.
+     *
+     * @param noteService Сервіс для роботи з записами.
+     */
     public EditNoteService(NoteService noteService) {
         this.noteService = noteService;
     }
 
+    /**
+     * Метод для редагування або видалення запису користувача.
+     */
     public void editNote() {
         User currentUser = Application.currentUser;
         List<Note> userNotes = noteService.getAllUserNotes(currentUser.getIdUser());
@@ -86,6 +97,13 @@ public class EditNoteService {
         }
     }
 
+    /**
+     * Метод для пошуку запису за назвою в списку.
+     *
+     * @param notes Список записів.
+     * @param title Назва запису для пошуку.
+     * @return Знайдений запис або null, якщо не знайдено.
+     */
     private Note findNoteByTitle(List<Note> notes, String title) {
         return notes.stream()
             .filter(note -> note.getTitle().equalsIgnoreCase(title))

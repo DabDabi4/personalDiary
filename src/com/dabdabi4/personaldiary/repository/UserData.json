@@ -6,4 +6,20 @@
   "role" : "Адмін",
   "errors" : [ ],
   "valid" : true
+}, {
+  "idUser" : "976212dc-eadd-434a-9f6a-20c6916a2111",
+  "username" : "ARTUR",
+  "password" : "ARTURTOP",
+  "email" : "ARTURTOP@gmail.com",
+  "role" : "Адмін",
+  "errors" : [ ],
+  "valid" : true
+}, {
+  "idUser" : "ed217be0-4023-407d-b6e7-af301f0c47a5",
+  "username" : "ARTURRRRR",
+  "password" : "ARTURURRURURU",
+  "email" : "ARURRURURU@gmail.com",
+  "role" : "Користувач",
+  "errors" : [ ],
+  "valid" : true
 } ]

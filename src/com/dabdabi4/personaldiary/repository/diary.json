@@ -7,4 +7,40 @@
   "valid" : true,
   "notes" : [ ],
   "userId" : "45551f4a-649a-4da4-9809-d185d11d385e"
+}, {
+  "idDiary" : "789546d6-8969-497f-bad8-497989996b3d",
+  "name" : "IGORRRR",
+  "description" : "DIMATOP",
+  "createdAt" : "2024-01-30",
+  "errors" : [ ],
+  "valid" : true,
+  "notes" : [ ],
+  "userId" : "976212dc-eadd-434a-9f6a-20c6916a2111"
+}, {
+  "idDiary" : "5aa4cc1d-3bfd-456f-aeeb-c780edad09b7",
+  "name" : "ШОООО",
+  "description" : "віааіваів",
+  "createdAt" : "2024-02-01",
+  "errors" : [ ],
+  "valid" : true,
+  "notes" : [ ],
+  "userId" : "976212dc-eadd-434a-9f6a-20c6916a2111"
+}, {
+  "idDiary" : "eec733dd-6949-4454-aa1e-7379057bcb91",
+  "name" : "ХТО",
+  "description" : "івааіаі",
+  "createdAt" : "2024-02-01",
+  "errors" : [ ],
+  "valid" : true,
+  "notes" : [ ],
+  "userId" : "976212dc-eadd-434a-9f6a-20c6916a2111"
+}, {
+  "idDiary" : "5e4b5665-041a-49ce-89d2-e5ddb88bc9ba",
+  "name" : "Artur",
+  "description" : "івфвів",
+  "createdAt" : "2024-02-02",
+  "errors" : [ ],
+  "valid" : true,
+  "notes" : [ ],
+  "userId" : "976212dc-eadd-434a-9f6a-20c6916a2111"
 } ]

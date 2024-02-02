@@ -5,6 +5,7 @@ import static com.dabdabi4.personaldiary.Application.currentUser;
 import com.dabdabi4.personaldiary.Application;
 import com.dabdabi4.personaldiary.entity.model.Diary;
 import com.dabdabi4.personaldiary.entity.model.Note;
+import com.dabdabi4.personaldiary.entity.model.Path;
 import com.dabdabi4.personaldiary.entity.model.User;
 import com.dabdabi4.personaldiary.view.CustomerConsoleUI;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -18,18 +19,24 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+/**
+ * Клас, який надає сервіси для роботи із щоденниками.
+ */
 public class DiaryService {
 
     private static final Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Метод для створення нового щоденника користувача.
+     */
     public void createDiary() {
-        CustomerConsoleUI.printSystemMessage("Хочете створити щоденник? (так/ні): ");
+        CustomerConsoleUI.printSystemMessage("Бажаєте створити щоденник? (так/ні): ");
         String createDiaryChoice = scanner.nextLine();
 
         if ("так".equalsIgnoreCase(createDiaryChoice)) {
             List<Diary> userDiaries = getAllUserDiaries(Application.currentUser.getIdUser());
             // Вивести список щоденників користувача
-            System.out.println("Список вашіх щоденників:");
+            System.out.println("Список ваших щоденників:");
             userDiaries.forEach(
                 diary -> System.out.println(diary.getName() + ": " + diary.getDescription()));
             CustomerConsoleUI.printSystemMessage("Введіть назву щоденника: ");
@@ -50,7 +57,7 @@ public class DiaryService {
             Diary newDiary = new Diary(createdAt, diaryName, diaryDescription,
                 currentUser.getIdUser());
 
-            CustomerConsoleUI.printSystemMessage("Хочете зберегти щоденник? (так/ні): ");
+            CustomerConsoleUI.printSystemMessage("Бажаєте зберегти щоденник? (так/ні): ");
             String saveDiaryChoice = scanner.nextLine();
 
             if ("так".equalsIgnoreCase(saveDiaryChoice)) {
@@ -60,21 +67,32 @@ public class DiaryService {
 
             System.out.println("Створений щоденник: " + newDiary);
         } else {
-            System.out.println("До побачення!");
+            // System.out.println("До побачення!");
         }
     }
 
+    /**
+     * Перевірка, чи щоденник із введеною назвою вже існує у списку користувача.
+     *
+     * @param diaryName Назва щоденника.
+     * @return true, якщо щоденник із такою назвою вже існує, false - в іншому випадку.
+     */
     private boolean diaryAlreadyExists(String diaryName) {
         List<Diary> userDiaries = getAllUserDiaries(currentUser.getIdUser());
         return userDiaries.stream().anyMatch(diary -> diary.getName().equalsIgnoreCase(diaryName));
     }
 
+    /**
+     * Збереження щоденника у JSON-файл.
+     *
+     * @param updatedDiary Оновлений або новий щоденник для збереження.
+     */
     public void saveDiaryToJson(Diary updatedDiary) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         try {
-            String filePath = "src/com/dabdabi4/personaldiary/repository/diary.json";
+            String filePath = Path.DIARY_JSON.getPath();
             File file = new File(filePath);
 
             List<Diary> existingDiaries;
@@ -109,12 +127,17 @@ public class DiaryService {
         }
     }
 
+    /**
+     * Видалення щоденника та пов'язаних з ним записів.
+     *
+     * @param diaryToDelete Щоденник, який слід видалити.
+     */
     public void deleteDiary(Diary diaryToDelete) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         try {
-            String filePath = "src/com/dabdabi4/personaldiary/repository/diary.json";
+            String filePath = Path.DIARY_JSON.getPath();
             File file = new File(filePath);
 
             if (file.exists()) {
@@ -139,6 +162,12 @@ public class DiaryService {
         }
     }
 
+    /**
+     * Видалення записів, пов'язаних із видаленим щоденником та користувачем.
+     *
+     * @param userId  ID користувача.
+     * @param diaryId ID щоденника.
+     */
     private void deleteRelatedNotes(String userId, String diaryId) {
         NoteService noteService = new NoteService();
         List<Note> allNotes = noteService.readNotesFromFile();
@@ -153,7 +182,7 @@ public class DiaryService {
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         try {
-            String filePath = "src/com/dabdabi4/personaldiary/repository/note.json";
+            String filePath = Path.NOTE_JSON.getPath();
             File file = new File(filePath);
 
             objectMapper.writeValue(file, allNotes);
@@ -163,13 +192,25 @@ public class DiaryService {
         }
     }
 
+    /**
+     * Отримання списку всіх щоденників користувача.
+     *
+     * @param userId ID користувача.
+     * @return Список щоденників користувача.
+     */
     public List<Diary> getAllUserDiaries(String userId) {
         return readDiariesFromFile(userId);
     }
 
+    /**
+     * Зчитування щоденників із JSON-файлу.
+     *
+     * @param userId ID користувача.
+     * @return Список щоденників користувача.
+     */
     public List<Diary> readDiariesFromFile(String userId) {
         ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File("src/com/dabdabi4/personaldiary/repository/diary.json");
+        File file = new File(Path.DIARY_JSON.getPath());
 
         try {
             if (file.exists()) {

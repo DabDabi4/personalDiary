@@ -8,8 +8,15 @@ import com.dabdabi4.personaldiary.service.EditDiaryService;
 import com.dabdabi4.personaldiary.service.NoteService;
 import java.util.List;
 
+/**
+ * Клас, який представляє меню для взаємодії з щоденниками та записами користувача.
+ */
 public class DiaryMenu {
 
+    /**
+     * Відображає меню щоденників та надає опції для створення щоденника, редагування щоденника,
+     * перегляду записів щоденника та повернення до основного меню.
+     */
     public static void showDiaryMenu() {
         while (true) {
             CustomerConsoleUI.printMenu("1) Створити щоденник");
@@ -41,8 +48,11 @@ public class DiaryMenu {
                         CustomerConsoleUI.printSystemMessage("Виберіть щоденник:");
 
                         // Вивести список щоденників користувача
-                        for (int i = 0; i < userDiaries.size(); i++) {
-                            System.out.println((i + 1) + ") " + userDiaries.get(i).getName());
+                        int diaryNumber = 1; // Лічильник щоденників
+                        for (Diary diary : userDiaries) {
+                            System.out.println(diaryNumber + ") " + diary.getName() + ": "
+                                + diary.getDescription());
+                            diaryNumber++;
                         }
 
                         int selectedDiaryIndex = new UserInputHandler().promptUserForInteger(

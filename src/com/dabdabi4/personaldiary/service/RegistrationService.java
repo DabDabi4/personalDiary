@@ -1,6 +1,7 @@
 package com.dabdabi4.personaldiary.service;
 
 import com.dabdabi4.personaldiary.Application;
+import com.dabdabi4.personaldiary.entity.model.Path;
 import com.dabdabi4.personaldiary.entity.model.User;
 import com.dabdabi4.personaldiary.view.CustomerConsoleUI;
 import com.dabdabi4.personaldiary.view.UserInputHandler;
@@ -11,10 +12,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Клас, який надає сервіс для реєстрації нових користувачів.
+ */
 public class RegistrationService {
 
-    private static User[] users2;
+    private static User[] secondUser;
 
+    /**
+     * Метод для виконання процесу реєстрації нового користувача.
+     */
     public static void registration() {
         String username;
         String password;
@@ -30,8 +37,8 @@ public class RegistrationService {
                 username = CustomerConsoleUI.promptUserForInput("Введіть логін",
                     new java.util.Scanner(System.in));
 
-                users2 = new ObjectMapper().readValue(
-                    new File("src//com//dabdabi4//personaldiary//repository//UserData.json"),
+                secondUser = new ObjectMapper().readValue(
+                    new File(Path.USER_JSON.getPath()),
                     User[].class);
 
                 if (isLoginUnique(username)) {
@@ -69,18 +76,20 @@ public class RegistrationService {
                     Application.users = addNewUser(Application.users, newUser);
 
                     saveUsersToJson(Application.users,
-                        "src//com//dabdabi4//personaldiary//repository//UserData.json");
+                        Path.USER_JSON.getPath());
 
                     CustomerConsoleUI.printSystemMessage("Реєстрація пройшла успішно.");
                     break;  // Вийти з циклу, якщо реєстрація успішна
                 } else {
-                    throw new IllegalArgumentException(
+                    System.out.println(
                         "Цей логін вже використовується. Оберіть інший.");
                 }
 
             } catch (IllegalArgumentException e) {
                 // Вивести повідомлення про помилку та продовжити цикл
-                System.out.println(e.getMessage());
+
+                System.out.println(
+                    "Помилка реєстрації.\n- Перевірте логін (не менше 4, не більше 24)\n- Перевірте пароль (не менше 8, не більше 32)\n- Перевірте пошту (не менше 12, не більше 30).");
             } catch (Exception e) {
                 // Обробити інші винятки
                 e.printStackTrace();
@@ -90,15 +99,28 @@ public class RegistrationService {
         } while (true);  // Цикл, доки користувач не введе правильні дані
     }
 
+    /**
+     * Метод для додавання нового користувача до масиву користувачів.
+     *
+     * @param users   Масив користувачів.
+     * @param newUser Новий користувач.
+     * @return Новий масив користувачів, що включає нового користувача.
+     */
     private static User[] addNewUser(User[] users, User newUser) {
         User[] newUsers = Arrays.copyOf(users, users.length + 1);
         newUsers[users.length] = newUser;
         return newUsers;
     }
 
+    /**
+     * Метод, який перевіряє унікальність логіну серед користувачів.
+     *
+     * @param login Логін для перевірки.
+     * @return {@code true}, якщо логін унікальний; {@code false}, якщо логін вже існує.
+     */
     private static boolean isLoginUnique(String login) {
-        if (users2 != null) {
-            for (User existingUser : users2) {
+        if (secondUser != null) {
+            for (User existingUser : secondUser) {
                 if (existingUser.getUsername().equals(login)) {
                     return false; // Логін не є унікальним
                 }
@@ -107,6 +129,12 @@ public class RegistrationService {
         return true; // Логін є унікальним
     }
 
+    /**
+     * Метод для збереження користувачів у файл JSON.
+     *
+     * @param users    Масив користувачів.
+     * @param filePath Шлях до файлу для збереження.
+     */
     private static void saveUsersToJson(User[] users, String filePath) {
         ObjectMapper objectMapper = new ObjectMapper();
 

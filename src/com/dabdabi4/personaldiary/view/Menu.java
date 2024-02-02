@@ -1,15 +1,13 @@
 package com.dabdabi4.personaldiary.view;
 
-import static com.dabdabi4.personaldiary.Application.users;
-
 import com.dabdabi4.personaldiary.Application;
-import com.dabdabi4.personaldiary.entity.model.Path;
-import com.dabdabi4.personaldiary.entity.model.User;
 import com.dabdabi4.personaldiary.service.AuthorizationService;
-import com.dabdabi4.personaldiary.service.JsonDataReader;
 import com.dabdabi4.personaldiary.service.RegistrationService;
 import com.dabdabi4.personaldiary.service.UserService;
 
+/**
+ * Клас, який представляє головне меню програми "Особистий щоденник".
+ */
 public class Menu {
 
     public Menu() {
@@ -17,11 +15,15 @@ public class Menu {
     }
 
 
+    /**
+     * Виводить головне меню та надає опції для реєстрації, авторизації, роботи з щоденниками,
+     * записами та перегляду даних.
+     *
+     * @throws IllegalAccessException Виняток, який може виникнути при невірному доступі.
+     */
     public static void show() throws IllegalAccessException {
 
-        CustomerConsoleUI.printLine('*', 20);
-        CustomerConsoleUI.printTitle("MENU");
-        CustomerConsoleUI.printLine('*', 20);
+        CustomerConsoleUI.printTitle("ОСОБИСТИЙ ЩОДЕННИК");
 
         while (true) {
             String userRole = Application.currentUser.getRole();
@@ -65,17 +67,7 @@ public class Menu {
                     }
                     break;
                 case 3:
-                    users = JsonDataReader.modelDataJsonReader(Path.USER_JSON.getPath(),
-                        User[].class);
-
-                    if (users.length != 0) {
-                        for (User user : users) {
-                            UserConsoleUI.displayUserInfo(user);
-                            CustomerConsoleUI.printLine('-', 35);
-                        }
-                    } else {
-                        CustomerConsoleUI.printTitle("HO DATA");
-                    }
+                    UserConsoleUI.displayUserInfo(Application.currentUser);
                     break;
                 case 4:
                     UserInputHandler userInputHandler = new UserInputHandler();

@@ -4,6 +4,7 @@ import static com.dabdabi4.personaldiary.Application.currentUser;
 
 import com.dabdabi4.personaldiary.entity.model.Diary;
 import com.dabdabi4.personaldiary.entity.model.Note;
+import com.dabdabi4.personaldiary.entity.model.Path;
 import com.dabdabi4.personaldiary.view.CustomerConsoleUI;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,10 +17,16 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+/**
+ * Клас, який надає сервіси для створення, збереження та роботи з записами.
+ */
 public class NoteService {
 
     private static final Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Метод для створення нового запису користувача.
+     */
     public void createNote() {
 
         System.out.println("Список ваших щоденників:");
@@ -67,6 +74,13 @@ public class NoteService {
         }
     }
 
+    /**
+     * Метод, який перевіряє чи існує вже запис з такою назвою в щоденнику.
+     *
+     * @param diaryId   Ідентифікатор щоденника.
+     * @param noteTitle Назва запису.
+     * @return {@code true}, якщо запис існує; {@code false} в іншому випадку.
+     */
     private boolean noteAlreadyExists(String diaryId, String noteTitle) {
         List<Note> notes = getAllUserNotes(currentUser.getIdUser());
 
@@ -80,12 +94,18 @@ public class NoteService {
         return diaryService.readDiariesFromFile(userId);
     }
 
+    /**
+     * Метод для збереження всіх записів користувача.
+     *
+     * @param userId    Ідентифікатор користувача.
+     * @param userNotes Список записів користувача.
+     */
     public void saveAllUserNotes(String userId, List<Note> userNotes) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         try {
-            String filePath = "src/com/dabdabi4/personaldiary/repository/note.json";
+            String filePath = Path.NOTE_JSON.getPath();
             File file = new File(filePath);
 
             // Зчитуємо всі записи з файлу
@@ -106,12 +126,17 @@ public class NoteService {
         }
     }
 
+    /**
+     * Метод для збереження запису в файл JSON.
+     *
+     * @param updatedNote Оновлений запис.
+     */
     public void saveNoteToJson(Note updatedNote) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         try {
-            String filePath = "src/com/dabdabi4/personaldiary/repository/note.json";
+            String filePath = Path.NOTE_JSON.getPath();
             File file = new File(filePath);
 
             List<Note> existingNotes;
@@ -147,9 +172,14 @@ public class NoteService {
         }
     }
 
+    /**
+     * Метод для зчитування всіх записів з файлу JSON.
+     *
+     * @return Список всіх записів.
+     */
     public List<Note> readNotesFromFile() {  // Додав новий метод
         ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File("src/com/dabdabi4/personaldiary/repository/note.json");
+        File file = new File(Path.NOTE_JSON.getPath());
 
         try {
             if (file.exists()) {
@@ -163,6 +193,12 @@ public class NoteService {
         return new ArrayList<>();
     }
 
+    /**
+     * Метод для отримання всіх записів користувача.
+     *
+     * @param userId Ідентифікатор користувача.
+     * @return Список записів користувача.
+     */
     public List<Note> getAllUserNotes(String userId) {
         List<Note> allNotes = readNotesFromFile();
         return allNotes.stream()
@@ -170,6 +206,13 @@ public class NoteService {
             .collect(Collectors.toList());
     }
 
+    /**
+     * Метод для пошуку щоденника за назвою в списку.
+     *
+     * @param diaries Список щоденників.
+     * @param name    Назва щоденника для пошуку.
+     * @return Знайдений щоденник або {@code null}, якщо не знайдено.
+     */
     private Diary findDiaryByName(List<Diary> diaries, String name) {
         return diaries.stream()
             .filter(diary -> diary.getName().equalsIgnoreCase(name))
@@ -177,6 +220,12 @@ public class NoteService {
             .orElse(null);
     }
 
+    /**
+     * Метод для отримання всіх записів для певного щоденника.
+     *
+     * @param diaryId Ідентифікатор щоденника.
+     * @return Список записів для щоденника.
+     */
     public List<Note> getAllNotesForDiary(String diaryId) {
         List<Note> allNotes = readNotesFromFile();
         return allNotes.stream()

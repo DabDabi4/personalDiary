@@ -7,4 +7,22 @@
   "noteText" : "авіваваіаі",
   "createdAt" : "2024-01-30",
   "userId" : "45551f4a-649a-4da4-9809-d185d11d385e"
+}, {
+  "idNote" : "2d19bb79-dd8f-48c4-a528-81106355ff65",
+  "idDiary" : "789546d6-8969-497f-bad8-497989996b3d",
+  "idCategory" : 0,
+  "tags" : null,
+  "title" : "IGOR",
+  "noteText" : "asdad",
+  "createdAt" : "2024-01-30",
+  "userId" : "976212dc-eadd-434a-9f6a-20c6916a2111"
+}, {
+  "idNote" : "c960825e-f05f-44ba-afcf-3a2a9bcaf307",
+  "idDiary" : "789546d6-8969-497f-bad8-497989996b3d",
+  "idCategory" : 0,
+  "tags" : null,
+  "title" : "LOLI",
+  "noteText" : "dsadaad",
+  "createdAt" : "2024-02-01",
+  "userId" : "976212dc-eadd-434a-9f6a-20c6916a2111"
 } ]

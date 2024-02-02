@@ -8,15 +8,26 @@ import com.dabdabi4.personaldiary.view.CustomerConsoleUI;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Клас, який надає сервіси для редагування та видалення щоденників користувача.
+ */
 public class EditDiaryService {
 
     private static final Scanner scanner = new Scanner(System.in);
     private final DiaryService diaryService;
 
+    /**
+     * Конструктор класу.
+     *
+     * @param diaryService Сервіс для роботи з щоденниками.
+     */
     public EditDiaryService(DiaryService diaryService) {
         this.diaryService = diaryService;
     }
 
+    /**
+     * Метод для вибору опції редагування або видалення щоденника користувача.
+     */
     public void editOrDeleteDiary() {
         User currentUser = Application.currentUser;
         List<Diary> userDiaries = diaryService.getAllUserDiaries(currentUser.getIdUser());
@@ -56,6 +67,11 @@ public class EditDiaryService {
         }
     }
 
+    /**
+     * Метод для редагування щоденника користувача.
+     *
+     * @param diaryToEdit Щоденник для редагування.
+     */
     private void editDiary(Diary diaryToEdit) {
         CustomerConsoleUI.printSystemMessage("Виберіть параметр для редагування:");
         System.out.println("1. Назва щоденника");
@@ -87,11 +103,23 @@ public class EditDiaryService {
         System.out.println("Оновлений щоденник: " + diaryToEdit);
     }
 
+    /**
+     * Метод для видалення щоденника користувача.
+     *
+     * @param diaryToDelete Щоденник для видалення.
+     */
     private void deleteDiary(Diary diaryToDelete) {
         diaryService.deleteDiary(diaryToDelete);
     }
 
 
+    /**
+     * Метод для пошуку щоденника за назвою в списку.
+     *
+     * @param diaries Список щоденників.
+     * @param name    Назва щоденника для пошуку.
+     * @return Знайдений щоденник або null, якщо не знайдено.
+     */
     private Diary findDiaryByName(List<Diary> diaries, String name) {
         return diaries.stream()
             .filter(diary -> diary.getName().equalsIgnoreCase(name))
